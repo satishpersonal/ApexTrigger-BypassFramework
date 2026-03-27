@@ -28,7 +28,7 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 		}
 		Map<Id,Contact> contactsToBeUpdated = ContactHelper.getContactsByAccountIds(namedUpdatedAccountIds);
 		for(Contact contact: contactsToBeUpdated.values()){
-			addToUpdate(contact,'LastName',contact.account.LastName);
+			addToUpdate(contact,'LastName',contact.account.Name);
 		}
 	}
 
