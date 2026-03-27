@@ -7,7 +7,7 @@
  * @Test Class Name  : 
 **/
 trigger AccountTrigger on Account (after insert, after update, before insert, before update) {
-	If(FeatureManagement.checkPermission('BypassTriggers')){
+	If(!FeatureManagement.checkPermission('BypassTriggers')){
 		TriggerFactory.createTriggerDispatcher(Account.sObjectType);
 	}else{
 		//Do nothing
