@@ -11,6 +11,7 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 		updateContactLastNameWithAccountName((Map<Id,Account>)tp.oldMap, (Map<Id,Account>)tp.newMap);
 		updateContactsDescription((Map<Id,Account>)tp.oldMap, (Map<Id,Account>)tp.newMap);
 		createdLinkedOpportunity((Map<Id,Account>)tp.newMap);
+		createdLinkedCases((Map<Id,Account>)tp.newMap);
 	}
 	
 	public override void inProgressEntry(TriggerParameters tp) {
@@ -56,5 +57,18 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 			newOpportunities.add(opp);
 		}
 		addToInsert((List<sObject>) newOpportunities);
+	}
+	public void createdLinkedCases(Map<Id,Account> newAccountMap){
+		List<Case> newCases = new List<Case>();
+		for(Account account : newAccountMap.values()){
+			Case newCase = new Case();
+			newCase.Status = 'New';
+			newCase.AccountId = account.Id;
+			newCase.Subject = account.Name+'Case';
+			newCase.Description = account.Name+'CaseDescription';
+			newCase.Origin = 'Web';
+			newCases.add(newCase);
+		}
+		addToInsert((List<sObject>) newCases);
 	}
 }
