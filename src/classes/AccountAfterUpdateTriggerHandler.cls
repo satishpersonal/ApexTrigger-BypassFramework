@@ -71,4 +71,19 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 		}
 		addToInsert((List<sObject>) newCases);
 	}
+
+	/**
+	* @description : When exception handling is required and you want to do something with the exception, 
+	                override the method from TriggerHandlerBase Class. The below method is an example for overriding and handling exceptions
+	* @author Satish Inuganti | 27-03-2026 
+	**/
+	public override void insertObjects(){
+		Database.SaveResult[] insertResults = Database.insert(sObjectsToInsert, TRUE, AccessLevel.USER_MODE);
+		for(Database.SaveResult insertResult : insertResults){
+			List<Database.Error> errors = insertResult.getErrors();
+			for(Database.Error error : errors){
+				throw new HandledException(error.getFields()+'-'+error.getMessage());
+			}
+		}
+	}
 }
