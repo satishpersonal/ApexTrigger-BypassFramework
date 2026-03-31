@@ -8,7 +8,6 @@
 public abstract class TriggerHandlerBase implements ITriggerHandler {
 	protected Map<Id, SObject> sObjectsToUpdate = new Map<Id, SObject>();
 	protected List<sObject> sObjectsToInsert = new List<sObject>();
-	protected List<sObject> sObjectsToInsert_Child = new List<sObject>();
 	protected List<sObject> sObjectsToDelete = new List<sObject>();
 	protected List<sObject> sObjectsToUndelete = new List<sObject>();
 	/** 
@@ -39,12 +38,9 @@ public abstract class TriggerHandlerBase implements ITriggerHandler {
 	public virtual void addToInsert(List<sObject> objectToBeInserted){
 		sObjectsToInsert.addAll(objectToBeInserted);
 	}
-	public virtual void addToInsertChildRecords(List<sObject> objectToBeInserted){
-		sObjectsToInsert_Child.addAll(objectToBeInserted);
-	}
 	public virtual void insertObjects() {
 		if(sObjectsToInsert.size() > 0){
-			Database.insert(sObjectsToInsert, addToInsertChildRecords, AccessLevel.USER_MODE);
+			Database.insert(sObjectsToInsert, AccessLevel.USER_MODE);
 		}
 	}
 	public virtual void addToUpdate(sObject updatedObject, String updatedFieldName, Object newValue){

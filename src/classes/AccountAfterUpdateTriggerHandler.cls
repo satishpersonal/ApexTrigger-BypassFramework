@@ -63,8 +63,9 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 		List<OpportunityLineItem> oppLineItems = new List<OpportunityLineItem>();
 		for(Opportunity opp : newOpportunities){
 			OpportunityLineItem oppLineItem = new OpportunityLineItem();
-			oppLineItem.Opportunity = opp;
+			oppLineItem.OpportunityId = opp.Id;
 			oppLineItem.Product2Id = '01tQy000006QES6IAO';
+			oppLineItem.PricebookEntryId = '01uQy000001KyArIAK';
 			oppLineItem.Quantity = 1;
 			oppLineItem.UnitPrice = 100;
 	        oppLineItems.add(oppLineItem);
@@ -91,7 +92,7 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 	* @author Satish Inuganti | 27-03-2026 
 	**/
 	public override void insertObjects(){
-		Database.SaveResult[] insertResults = Database.insert(sObjectsToInsert, TRUE, AccessLevel.USER_MODE);
+		Database.SaveResult[] insertResults = Database.insert(sObjectsToInsert, FALSE, AccessLevel.USER_MODE);
 		for(Database.SaveResult insertResult : insertResults){
 			List<Database.Error> errors = insertResult.getErrors();
 			for(Database.Error error : errors){
