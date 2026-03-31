@@ -57,8 +57,9 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 			newOpportunities.add(opp);
 		}
 		addToInsert((List<sObject>) newOpportunities);
-		createOpportunityLinteItems((List<Opportunity>)newOpportunities);
+		/** createOpportunityLinteItems((List<Opportunity>)newOpportunities);*/
 	}
+	/**
 	public void createOpportunityLinteItems(List<Opportunity> newOpportunities){
 		List<OpportunityLineItem> oppLineItems = new List<OpportunityLineItem>();
 		for(Opportunity opp : newOpportunities){
@@ -72,6 +73,7 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 		}
 		addToInsert((List<sObject>) oppLineItems);
 	}
+	*/
 	public void createdLinkedCases(Map<Id,Account> newAccountMap){
 		List<Case> newCases = new List<Case>();
 		for(Account account : newAccountMap.values()){
