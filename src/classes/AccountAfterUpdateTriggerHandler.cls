@@ -65,7 +65,6 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 			OpportunityLineItem oppLineItem = new OpportunityLineItem();
 			oppLineItem.Opportunity = opp;
 			oppLineItem.Product2Id = '01tQy000006QES6IAO';
-			oppLineItem.PricebookEntryId = '01uQy000001KyArIAK';
 			oppLineItem.Quantity = 1;
 			oppLineItem.UnitPrice = 100;
 	        oppLineItems.add(oppLineItem);
