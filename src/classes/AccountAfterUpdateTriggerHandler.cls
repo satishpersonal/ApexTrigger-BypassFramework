@@ -10,7 +10,7 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 	public override void mainEntry(TriggerParameters tp) {
 		updateContactLastNameWithAccountName((Map<Id,Account>)tp.oldMap, (Map<Id,Account>)tp.newMap);
 		updateContactsDescription((Map<Id,Account>)tp.oldMap, (Map<Id,Account>)tp.newMap);
-		createdLinkedOpportunity((Map<Id,Account>)tp.newMap);
+		createdLinkedOpportunities_OppLineItems((Map<Id,Account>)tp.newMap);
 		createdLinkedCases((Map<Id,Account>)tp.newMap);
 	}
 	
@@ -46,7 +46,7 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 		}
 	}
 	
-	public void createdLinkedOpportunity(Map<Id,Account> newAccountMap){
+	public void createdLinkedOpportunities_OppLineItems(Map<Id,Account> newAccountMap){
 		List<Opportunity> newOpportunities = new List<Opportunity>();
 		for(Account account : newAccountMap.values()){
 			Opportunity opp = new Opportunity();
@@ -57,6 +57,20 @@ public with sharing class AccountAfterUpdateTriggerHandler extends TriggerHandle
 			newOpportunities.add(opp);
 		}
 		addToInsert((List<sObject>) newOpportunities);
+		createOpportunityLinteItems((List<Opportunity>)newOpportunities);
+	}
+	public void createOpportunityLinteItems(List<Opportunity> newOpportunities){
+		List<OpportunityLineItem> oppLineItems = new List<OpportunityLineItem>();
+		for(Opportunity opp : newOpportunities){
+			OpportunityLineItem oppLineItem = new OpportunityLineItem();
+			oppLineItem.OpportunityId = opp.Id;
+			oppLineItem.Product2Id = '01tQy000006QES6IAO';
+			oppLineItem.PricebookEntryId = '01uQy000001KyArIAK';
+			oppLineItem.Quantity = 1;
+			oppLineItem.UnitPrice = 100;
+	        oppLineItems.add(oppLineItem);
+		}
+		addToInsert((List<sObject>) oppLineItems);
 	}
 	public void createdLinkedCases(Map<Id,Account> newAccountMap){
 		List<Case> newCases = new List<Case>();
